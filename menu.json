@@ -110,21 +110,6 @@
         "term": "Fire Weather"
       },
       {
-        "label": "National Sheltering",
-        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/page_114",
-        "term": "National Sheltering"
-      },
-      {
-        "label": "Current Open Shelters",
-        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/page_122",
-        "term": "Current Open Shelters"
-      },
-      {
-        "label": "Shelter Intake",
-        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/page_123",
-        "term": "Shelter Intake"
-      },
-      {
         "label": "SCIA Operational Dashboard",
         "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/page_176",
         "term": "SCIA Operational Dashboard"
@@ -133,6 +118,27 @@
         "label": "Restricted SCIA Access Request",
         "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/page_177",
         "term": "Restricted SCIA Access Request"
+      }
+    ]
+  },
+  {
+    "category": "3 Sheltering",
+    "color": "btn-green",
+    "links": [
+      {
+        "label": "National Sheltering",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/page_114",
+        "term": "National Sheltering"
+      },
+      {
+        "label": "Current Open Shelters", 
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/page_122",
+        "term": "Current Open Shelters"
+      },
+      {
+        "label": "Shelter Intake",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/page_123", 
+        "term": "Shelter Intake"
       }
     ]
   },
@@ -184,11 +190,27 @@
         "label": "Speed to Scale",
         "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/page_169",
         "term": "Speed to Scale"
-      },
+      }
+    ]
+  },
+  {
+    "category": "5 Call Center",
+    "color": "btn-blue",
+    "links": [
       {
         "label": "1 800 Red Cross",
         "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/page_117",
         "term": "1 800 Red Cross"
+      },
+      {
+        "label": "DAT Dispatch",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/page_129",
+        "term": "DAT Dispatch"
+      },
+      {
+        "label": "DRO Call Center", 
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/page_130",
+        "term": "DRO Call Center"
       }
     ]
   },
