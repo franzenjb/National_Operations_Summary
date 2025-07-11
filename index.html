@@ -274,6 +274,9 @@
             transition: all 0.2s ease;
             box-shadow: 0 1px 2px var(--button-shadow);
             font-size: 0.8rem;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
         }
 
         .menu-button:hover {
@@ -546,8 +549,8 @@
                     html += `<div class="category-card">`;
                     html += `<h2 class="category-title">${category.category}</h2>`;
                     category.links.forEach(link => {
-                        // Simple HTML links - should just work!
-                        html += `<a href="${link.href}" target="_parent" class="menu-button ${category.color}" data-search-term="${link.term}">${link.label}</a>`;
+                        // Use JavaScript navigation to break out of iframe
+                        html += `<button onclick="navigateToPage('${link.href}')" class="menu-button ${category.color}" data-search-term="${link.term}">${link.label}</button>`;
                     });
                     html += `</div>`;
                 });
