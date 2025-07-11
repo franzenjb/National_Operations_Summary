@@ -478,14 +478,50 @@
         // --- Global navigation function - Jump to other Experience Builder ---
         function navigateToPage(url) {
             console.log('Jumping to other Experience Builder:', url);
-            // Break out of iframe and navigate parent window to other Experience Builder
-            if (window.parent && window.parent !== window) {
-                // We're in an iframe, navigate the parent
-                window.parent.location.href = url;
-            } else {
-                // We're not in an iframe, navigate normally
-                window.location.href = url;
+            
+            try {
+                // Method 1: Try parent window navigation (for iframe)
+                if (window.parent && window.parent !== window) {
+                    console.log('Attempting parent navigation...');
+                    window.parent.location.href = url;
+                    return;
+                }
+            } catch (e) {
+                console.log('Parent navigation blocked:', e);
             }
+            
+            try {
+                // Method 2: Try top window navigation
+                if (window.top && window.top !== window) {
+                    console.log('Attempting top navigation...');
+                    window.top.location.href = url;
+                    return;
+                }
+            } catch (e) {
+                console.log('Top navigation blocked:', e);
+            }
+            
+            try {
+                // Method 3: Try postMessage to parent
+                if (window.parent && window.parent !== window) {
+                    console.log('Attempting postMessage...');
+                    window.parent.postMessage({
+                        type: 'navigate',
+                        url: url
+                    }, '*');
+                    // Small delay then fallback
+                    setTimeout(() => {
+                        window.open(url, '_blank');
+                    }, 1000);
+                    return;
+                }
+            } catch (e) {
+                console.log('PostMessage failed:', e);
+            }
+            
+            // Method 4: Fallback - open in new tab
+            console.log('Using fallback: new tab');
+            window.open(url, '_blank');
         }
 
         document.addEventListener('DOMContentLoaded', function() {
