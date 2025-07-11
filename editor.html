@@ -64,7 +64,7 @@
     <script>
         // --- CORS: must match your backend ---
         const BACKEND_URL = 'https://menu-jfranzen.pythonanywhere.com';
-        let menuData = { categories: [], footerButton: null };
+        let menuData = [];
         let menuEditorData = null;
         let isAdmin = false;
         // --- Admin modal logic ---
@@ -89,7 +89,7 @@
         });
         // --- Menu API functions ---
         async function fetchMenuData() {
-            const resp = await fetch(BACKEND_URL + '/menu');
+            const resp = await fetch(BACKEND_URL + '/menu.json');
             if (!resp.ok) throw new Error('Failed to load menu');
             return await resp.json();
         }
@@ -117,14 +117,24 @@
         // --- Editor UI logic ---
         function renderMenuEditor() {
             let html = '';
-            menuEditorData.categories.forEach((cat, ci) => {
-                html += `<div class='cat-block'><b>${cat.title}</b> <button class='danger' onclick='removeCategory(${ci})'>Delete Category</button><br>`;
-                html += `Color: <input value='${cat.color}' onchange='updateCategoryColor(${ci}, this.value)'>`;
+            menuEditorData.forEach((cat, ci) => {
+                html += `<div class='cat-block'>
+                    <input value='${cat.category}' onchange='updateCategoryName(${ci}, this.value)' style='font-weight:bold; font-size:1.1em; width:300px;' placeholder='Category Name'>
+                    <button class='danger' onclick='removeCategory(${ci})'>Delete Category</button><br>`;
+                html += `Color: <select onchange='updateCategoryColor(${ci}, this.value)' value='${cat.color}'>
+                    <option value='btn-purple' ${cat.color === 'btn-purple' ? 'selected' : ''}>Purple</option>
+                    <option value='btn-blue' ${cat.color === 'btn-blue' ? 'selected' : ''}>Blue</option>
+                    <option value='btn-green' ${cat.color === 'btn-green' ? 'selected' : ''}>Green</option>
+                    <option value='btn-orange' ${cat.color === 'btn-orange' ? 'selected' : ''}>Orange</option>
+                    <option value='btn-red' ${cat.color === 'btn-red' ? 'selected' : ''}>Red</option>
+                    <option value='btn-black' ${cat.color === 'btn-black' ? 'selected' : ''}>Black</option>
+                </select>`;
                 html += `<button onclick='addMenuItem(${ci})'>Add Item</button>`;
-                (cat.items||[]).forEach((item, ii) => {
+                (cat.links||[]).forEach((item, ii) => {
                     html += `<div class='item-block'>
-                        <input value='${item.title}' onchange='updateMenuItem(${ci},${ii},"title",this.value)'>
-                        <input value='${item.url}' onchange='updateMenuItem(${ci},${ii},"url",this.value)'>
+                        <input value='${item.label}' onchange='updateMenuItem(${ci},${ii},"label",this.value)' placeholder='Button Label'>
+                        <input value='${item.href}' onchange='updateMenuItem(${ci},${ii},"href",this.value)' placeholder='Full URL'>
+                        <input value='${item.term}' onchange='updateMenuItem(${ci},${ii},"term",this.value)' placeholder='Search Terms'>
                         <button class='danger' onclick='removeMenuItem(${ci},${ii})'>Delete</button>
                     </div>`;
                 });
@@ -148,26 +158,37 @@
             };
         }
         window.addCategory = function() {
-            menuEditorData.categories.push({id:'new-cat-'+Date.now(),title:'New Category',color:'purple',items:[]});
+            menuEditorData.push({
+                category: 'New Category',
+                color: 'btn-blue',
+                links: []
+            });
             renderMenuEditor();
         }
         window.removeCategory = function(ci) {
-            if(confirm('Delete this category?')) menuEditorData.categories.splice(ci,1);
+            if(confirm('Delete this category?')) menuEditorData.splice(ci,1);
             renderMenuEditor();
         }
         window.addMenuItem = function(ci) {
-            menuEditorData.categories[ci].items.push({title:'New Item',url:''});
+            menuEditorData[ci].links.push({
+                label: 'New Item',
+                href: 'https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/New-Page',
+                term: 'New Item'
+            });
             renderMenuEditor();
         }
         window.removeMenuItem = function(ci,ii) {
-            if(confirm('Delete this item?')) menuEditorData.categories[ci].items.splice(ii,1);
+            if(confirm('Delete this item?')) menuEditorData[ci].links.splice(ii,1);
             renderMenuEditor();
         }
         window.updateMenuItem = function(ci,ii,field,val) {
-            menuEditorData.categories[ci].items[ii][field]=val;
+            menuEditorData[ci].links[ii][field]=val;
         }
         window.updateCategoryColor = function(ci,val) {
-            menuEditorData.categories[ci].color=val;
+            menuEditorData[ci].color=val;
+        }
+        window.updateCategoryName = function(ci,val) {
+            menuEditorData[ci].category=val;
         }
         window.restoreVersionAction = async function(filename) {
             if(confirm('Restore this version?')) {
