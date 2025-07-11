@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """
 Reusable ArcGIS Experience Builder Menu Generator
-Creates menu.json files with automatic link generation
+Creates menu.json files with automatic link generation and page visibility detection
 """
 import json
 from typing import List, Dict, Any
 from config import create_menu_item, get_arcgis_credentials
+from page_visibility_detector import get_visible_pages, should_hide_page
 
 class MenuGenerator:
     """Generate menu configurations for ArcGIS Experience Builder projects"""
@@ -160,8 +161,79 @@ class MenuGenerator:
         
         return categories
     
-    def save_menu(self, menu_data: List[Dict[str, Any]], filename: str = "menu.json"):
-        """Save menu data to JSON file"""
+    def validate_menu_visibility(self, menu_data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """
+        Validate menu against page visibility and remove hidden pages
+        
+        Args:
+            menu_data: Menu data to validate
+            
+        Returns:
+            Cleaned menu data with hidden pages removed
+        """
+        if not self.experience_id:
+            print("⚠️  No experience ID set, skipping visibility validation")
+            return menu_data
+        
+        try:
+            visible_pages = get_visible_pages(self.experience_id)
+            visible_page_ids = set(visible_pages.keys())
+            
+            cleaned_menu = []
+            removed_items = []
+            
+            for category in menu_data:
+                cleaned_links = []
+                
+                for link in category['links']:
+                    # Extract page ID from href
+                    if '/page/' in link['href']:
+                        page_id = link['href'].split('/page/')[-1]
+                        
+                        if page_id in visible_page_ids:
+                            cleaned_links.append(link)
+                        else:
+                            removed_items.append({
+                                'category': category['category'],
+                                'label': link['label'],
+                                'page_id': page_id
+                            })
+                    else:
+                        # Keep non-page links (external URLs, etc.)
+                        cleaned_links.append(link)
+                
+                # Only include category if it has visible links
+                if cleaned_links:
+                    category_copy = category.copy()
+                    category_copy['links'] = cleaned_links
+                    cleaned_menu.append(category_copy)
+            
+            if removed_items:
+                print(f"🔒 Removed {len(removed_items)} hidden pages from menu:")
+                for item in removed_items:
+                    print(f"   {item['category']} > {item['label']} ({item['page_id']})")
+            else:
+                print("✅ All menu items are visible")
+            
+            return cleaned_menu
+            
+        except Exception as e:
+            print(f"⚠️  Visibility validation failed: {e}")
+            print("   Using original menu without validation")
+            return menu_data
+
+    def save_menu(self, menu_data: List[Dict[str, Any]], filename: str = "menu.json", validate_visibility: bool = True):
+        """
+        Save menu data to JSON file with optional visibility validation
+        
+        Args:
+            menu_data: Menu data to save
+            filename: Output filename
+            validate_visibility: Whether to validate against page visibility
+        """
+        if validate_visibility:
+            menu_data = self.validate_menu_visibility(menu_data)
+        
         with open(filename, 'w') as f:
             json.dump(menu_data, f, indent=2)
         print(f"✅ Menu saved to {filename}")

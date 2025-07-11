@@ -201,16 +201,6 @@
         "label": "1 800 Red Cross",
         "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/page_117",
         "term": "1 800 Red Cross"
-      },
-      {
-        "label": "DAT Dispatch",
-        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/page_129",
-        "term": "DAT Dispatch"
-      },
-      {
-        "label": "DRO Call Center", 
-        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/page_130",
-        "term": "DRO Call Center"
       }
     ]
   },
@@ -292,11 +282,6 @@
         "label": "DR 497-25 Oklahoma",
         "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/page_159",
         "term": "DR 497-25 Oklahoma"
-      },
-      {
-        "label": "DR Comp BETA",
-        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/page_172",
-        "term": "DR Comp BETA Tool"
       }
     ]
   },
