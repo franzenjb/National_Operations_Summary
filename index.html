@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>National Operations Summary (NOS)</title>
+    <!-- Tailwind CSS CDN for easy styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Using Inter font for better readability and consistent design -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables for theming */
+        :root {
+            --bg-primary: #f0f4f8;
+            --bg-secondary: #ffffff;
+            --bg-card: #f7f9fc;
+            --text-primary: #2c3e50;
+            --text-secondary: #34495e;
+            --border-color: #dcdfe6;
+            --border-secondary: #d0d0d0;
+            --shadow-light: rgba(0, 0, 0, 0.06);
+            --shadow-medium: rgba(0, 0, 0, 0.1);
+            --input-shadow: rgba(0, 0, 0, 0.04);
+            --focus-shadow: rgba(52, 152, 219, 0.1);
+            --button-shadow: rgba(0, 0, 0, 0.06);
+        }
+
+        /* Dark mode variables */
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --bg-card: #363636;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --border-color: #555555;
+            --border-secondary: #444444;
+            --shadow-light: rgba(0, 0, 0, 0.3);
+            --shadow-medium: rgba(0, 0, 0, 0.4);
+            --input-shadow: rgba(0, 0, 0, 0.2);
+            --focus-shadow: rgba(52, 152, 219, 0.3);
+            --button-shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        /* Force html and body to take full viewport height and prevent scrolling */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            line-height: 1.1;
+            display: flex;
+            flex-direction: column;
+            transition: background-color 0.3s ease;
+        }
+
+        .menu-container {
+            flex-grow: 1;
+            width: 100%;
+            max-width: 1600px;
+            margin: 0.25rem auto;
+            padding: 0.75rem;
+            background-color: var(--bg-secondary);
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 8px var(--shadow-light);
+            box-sizing: border-box; 
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        /* Search and Controls Container */
+        .search-controls-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-input-wrapper {
+            flex: 1;
+        }
+
+        .controls-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .toggle-button {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.5rem;
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: 0.25rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .toggle-button:hover {
+            background-color: var(--bg-card);
+            color: var(--text-primary);
+        }
+
+        .toggle-button.active {
+            background-color: #3498db;
+            border-color: #3498db;
+            color: white;
+        }
+
+        .toggle-button span:first-child {
+            font-size: 0.7rem;
+        }
+
+        /* Toggle Switch Styles - Smaller */
+        .toggle-switch {
+            position: relative;
+            width: 28px;
+            height: 16px;
+            background-color: var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .toggle-switch.active {
+            background-color: #3498db;
+        }
+
+        .toggle-switch::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 12px;
+            height: 12px;
+            background-color: white;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .toggle-switch.active::before {
+            transform: translateX(12px);
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-primary);
+            transition: color 0.3s ease;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.6rem 1rem;
+            border-radius: 0.6rem;
+            border: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+            box-shadow: inset 0 1px 2px var(--input-shadow);
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 2px var(--focus-shadow);
+        }
+
+        .search-input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .category-grid-wrapper {
+            flex-grow: 1;
+            overflow: hidden;
+            box-sizing: border-box;
+            display: flex;
+            align-items: stretch;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            grid-template-rows: min-content min-content; 
+            gap: 0.6rem;
+            align-items: start;
+            width: 100%;
+            height: 100%;
+            grid-template-areas: 
+                "sit-summary weather logistics sads-dro financial-assist"
+                ". . . risk-tool comm-adapt";
+            transition: all 0.3s ease;
+        }
+
+        /* Alphabetical mode styles */
+        .category-grid.alphabetical {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-areas: none;
+            grid-template-rows: none;
+        }
+
+        .category-grid.alphabetical .category-card {
+            grid-area: auto !important;
+        }
+
+        .category-card {
+            background-color: var(--bg-card);
+            border-radius: 0.4rem;
+            padding: 0.6rem;
+            box-shadow: 0 1px 3px var(--shadow-light);
+            display: flex; 
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            height: auto;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px var(--shadow-medium);
+        }
+
+        /* Explicit grid placement for each category card using grid-area */
+        .card-1-sit-summary { grid-area: sit-summary; }
+        .card-2-weather { grid-area: weather; }
+        .card-4-logistics { grid-area: logistics; }
+        .card-6-sads-dro { grid-area: sads-dro; }
+        .card-7-financial-assist { grid-area: financial-assist; }
+        .card-8-risk-tool { grid-area: risk-tool; }
+        .card-9-community-cap { grid-area: comm-adapt; }
+
+        .category-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.2rem;
+            border-bottom: 1px solid var(--border-secondary);
+            width: 100%;
+            transition: color 0.3s ease;
+        }
+
+        .category-subtitle { 
+            font-size: 0.75rem;
+            margin: 0.2rem 0 0.15rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+        }
+
+        .menu-button {
+            display: block;
+            width: 100%;
+            padding: 0.3rem 0.5rem;
+            margin-bottom: 0.25rem;
+            border-radius: 0.3rem;
+            font-weight: 500; 
+            text-align: center;
+            text-decoration: none;
+            color: white; 
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 2px var(--button-shadow);
+            font-size: 0.8rem;
+        }
+
+        .menu-button:hover {
+            transform: translateY(-0.5px);
+            box-shadow: 0 2px 4px var(--shadow-medium);
+        }
+
+        /* Enhanced button colors for better dark mode compatibility */
+        .btn-purple { background-color: #8e44ad; } 
+        .btn-purple:hover { background-color: #9b59b6; }
+
+        .btn-blue { background-color: #3498db; } 
+        .btn-blue:hover { background-color: #2980b9; }
+
+        .btn-green { background-color: #27ae60; } 
+        .btn-green:hover { background-color: #2ecc71; }
+
+        .btn-orange { background-color: #e67e22; } 
+        .btn-orange:hover { background-color: #f39c12; }
+
+        .btn-red { background-color: #e74c3c; } 
+        .btn-red:hover { background-color: #c0392b; }
+
+        .btn-black { background-color: #34495e; } 
+        .btn-black:hover { background-color: #2c3e50; }
+
+        .btn-red-dark { background-color: #7f1d1d; }
+        .btn-red-dark:hover { background-color: #9b2a2a; }
+
+        /* Dark mode enhancements for buttons */
+        [data-theme="dark"] .btn-black { background-color: #5a6c7d; }
+        [data-theme="dark"] .btn-black:hover { background-color: #4a5a6b; }
+
+        /* Responsive adjustments */
+        @media (min-width: 1400px) {
+            .category-grid {
+                grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+                grid-template-areas: 
+                    "sit-summary weather logistics sads-dro financial-assist"
+                    ". . . risk-tool comm-adapt"; 
+            }
+        }
+        @media (min-width: 1100px) and (max-width: 1399px) {
+            .category-grid {
+                grid-template-columns: 1fr 1fr 1fr 1fr;
+                grid-template-areas: 
+                    "sit-summary weather logistics sads-dro"
+                    "financial-assist . risk-tool comm-adapt";
+            }
+        }
+        @media (min-width: 850px) and (max-width: 1099px) {
+            .category-grid {
+                grid-template-columns: 1fr 1fr 1fr;
+                grid-template-areas: 
+                    "sit-summary weather logistics"
+                    "sads-dro financial-assist risk-tool"
+                    "comm-adapt . .";
+            }
+        }
+        @media (min-width: 600px) and (max-width: 849px) {
+            .category-grid {
+                grid-template-columns: 1fr 1fr;
+                grid-template-areas: unset;
+                grid-auto-flow: row dense;
+            }
+            .category-card { grid-area: auto !important; }
+            
+            .search-controls-container {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.75rem;
+            }
+            
+            .controls-wrapper {
+                justify-content: center;
+            }
+        }
+        @media (max-width: 599px) {
+            .category-grid {
+                grid-template-columns: 1fr;
+                grid-template-areas: unset;
+                grid-auto-flow: row dense;
+            }
+            .category-card { grid-area: auto !important; }
+            
+            .search-controls-container {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.75rem;
+            }
+            
+            .controls-wrapper {
+                justify-content: center;
+            }
+        }
+
+        /* Animation classes */
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Loading state */
+        .sorting {
+            opacity: 0.7;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+    #menuEditorOverlay {
+        display: none;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+    }
+    #menuEditorPanel {
+        background: #fff;
+        border-radius: 8px;
+        padding: 2rem;
+        max-width: 700px;
+        width: 95vw;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 4px 32px rgba(0,0,0,0.2);
+    }
+    #menuEditorPanel h2 { margin-top: 0; }
+    #menuEditorPanel input, #menuEditorPanel select {
+        margin: 0.2rem 0.5rem 0.2rem 0;
+        padding: 0.2rem 0.5rem;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+    }
+    #menuEditorPanel button {
+        margin: 0.2rem 0.2rem 0.2rem 0;
+        padding: 0.2rem 0.7rem;
+        border-radius: 4px;
+        border: none;
+        background: #3498db;
+        color: #fff;
+        cursor: pointer;
+    }
+    #menuEditorPanel button.danger { background: #e74c3c; }
+    #menuEditorPanel .cat-block { border-bottom: 1px solid #eee; margin-bottom: 1rem; padding-bottom: 0.5rem; }
+    #menuEditorPanel .item-block { margin-left: 1.5rem; }
+    #menuEditorPanel .close-btn { float: right; background: #888; }
+    #menuEditorPanel textarea { width: 100%; min-height: 60px; margin-top: 0.5rem; }
+    </style>
+    <!-- REMOVE the embedded menuConfig JSON block -->
+</head>
+<body>
+
+    <div class="menu-container">
+        <h1 class="text-center font-bold mb-4">National Operations Summary
+            <button id="adminBtn" style="position:absolute;top:10px;right:20px;opacity:0.2;font-size:0.9rem;z-index:10;background:none;border:none;cursor:pointer;">Menu Editor</button>
+        </h1>
+
+        <div class="search-controls-container">
+            <div class="search-input-wrapper">
+                <input type="text" id="menuSearch" class="search-input" placeholder="Search menu items...">
+            </div>
+            <div class="controls-wrapper">
+                <div class="toggle-button" id="darkModeToggle">
+                    <span>🌙</span>
+                    <span>Dark</span>
+                    <div class="toggle-switch" id="darkModeSwitch"></div>
+                </div>
+                <div class="toggle-button" id="alphabeticalToggle">
+                    <span>🔤</span>
+                    <span>A-Z</span>
+                    <div class="toggle-switch" id="alphabeticalSwitch"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category-grid-wrapper">
+            <div id="menuContent" class="category-grid"></div>
+        </div>
+
+        <div class="text-center mt-3" id="footerButtonContainer"></div>
+    </div>
+
+    <div id="menuEditorOverlay">
+      <div id="menuEditorPanel">
+        <button class="close-btn" onclick="document.getElementById('menuEditorOverlay').style.display='none'">Close</button>
+        <h2>Menu Editor</h2>
+        <div id="menuEditorContent"></div>
+        <button id="exportMenuJsonBtn">Export JSON</button>
+        <textarea id="exportMenuJsonArea" readonly style="display:none;"></textarea>
+      </div>
+    </div>
+
+    <script>
+        // --- Global navigation function - Jump to other Experience Builder ---
+        function navigateToPage(url) {
+            console.log('Jumping to other Experience Builder:', url);
+            // Break out of iframe and navigate parent window to other Experience Builder
+            if (window.parent && window.parent !== window) {
+                // We're in an iframe, navigate the parent
+                window.parent.location.href = url;
+            } else {
+                // We're not in an iframe, navigate normally
+                window.location.href = url;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Load menu data from local JSON file ---
+            async function fetchMenuData() {
+                try {
+                    const resp = await fetch('./menu.json');
+                    if (!resp.ok) throw new Error('Failed to load menu');
+                    return await resp.json();
+                } catch (e) {
+                    alert('Error loading menu: ' + e.message);
+                    return [];
+                }
+            }
+            async function saveMenuData(data) {
+                try {
+                    const resp = await fetch('https://menu-jfranzen.pythonanywhere.com/menu?pw=redcross', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    });
+                    if (!resp.ok) throw new Error('Failed to save menu');
+                    return await resp.json();
+                } catch (e) {
+                    alert('Error saving menu: ' + e.message);
+                }
+            }
+            async function fetchVersions() {
+                const resp = await fetch('https://menu-jfranzen.pythonanywhere.com/versions');
+                return resp.ok ? await resp.json() : [];
+            }
+            async function restoreVersion(filename) {
+                const resp = await fetch('https://menu-jfranzen.pythonanywhere.com/restore?pw=redcross', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ filename })
+                });
+                return resp.ok;
+            }
+            // --- UI and state ---
+            let menuData = [];
+            let menuEditorData = null;
+            let isDarkMode = false;
+            let isAlphabetical = false;
+            let originalHTML = '';
+            const menuContent = document.getElementById('menuContent');
+            const footerButtonContainer = document.getElementById('footerButtonContainer');
+            const searchInput = document.getElementById('menuSearch');
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const darkModeSwitch = document.getElementById('darkModeSwitch');
+            const alphabeticalToggle = document.getElementById('alphabeticalToggle');
+            const alphabeticalSwitch = document.getElementById('alphabeticalSwitch');
+            const adminBtn = document.getElementById('adminBtn');
+            const menuEditorOverlay = document.getElementById('menuEditorOverlay');
+            const menuEditorContent = document.getElementById('menuEditorContent');
+            let allButtons = [];
+            // --- Build menu from JSON ---
+            function buildMenu(data) {
+                let html = '';
+                data.forEach(category => {
+                    html += `<div class="category-card">`;
+                    html += `<h2 class="category-title">${category.category}</h2>`;
+                    category.links.forEach(link => {
+                        // Simple HTML links - should just work!
+                        html += `<a href="${link.href}" target="_parent" class="menu-button ${category.color}" data-search-term="${link.term}">${link.label}</a>`;
+                    });
+                    html += `</div>`;
+                });
+                menuContent.innerHTML = html;
+            }
+            function buildFooterButton(footer) {
+                if (!footer) return;
+                footerButtonContainer.innerHTML = `<a href="https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/${footer.url}" class="menu-button btn-${footer.color} inline-block w-auto px-5 py-2 rounded-full text-base" data-search-term="${footer.searchTerm}">${footer.title}</a>`;
+            }
+            // --- Feature logic (search, dark mode, alphabetical, etc.) ---
+            function storeAllButtons() {
+                allButtons = [];
+                menuContent.querySelectorAll('.menu-button').forEach(button => {
+                    if (!button.closest('.category-card')) return;
+                    allButtons.push({
+                        text: button.textContent.trim(),
+                        href: button.href,
+                        className: button.className,
+                        searchTerm: button.dataset.searchTerm || '',
+                        outerHTML: button.outerHTML
+                    });
+                });
+            }
+            function loadPreferences() {
+                const savedDarkMode = localStorage.getItem('nosb-dark-mode') === 'true';
+                if (savedDarkMode) toggleDarkMode();
+                const savedAlphabetical = localStorage.getItem('nosb-alphabetical') === 'true';
+                if (savedAlphabetical) toggleAlphabetical();
+            }
+            function attachEventListeners() {
+                darkModeToggle.addEventListener('click', toggleDarkMode);
+                alphabeticalToggle.addEventListener('click', toggleAlphabetical);
+                searchInput.addEventListener('keyup', filterMenu);
+                searchInput.addEventListener('change', filterMenu);
+            }
+            function toggleDarkMode() {
+                isDarkMode = !isDarkMode;
+                if (isDarkMode) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    darkModeSwitch.classList.add('active');
+                    darkModeToggle.classList.add('active');
+                } else {
+                    document.documentElement.removeAttribute('data-theme');
+                    darkModeSwitch.classList.remove('active');
+                    darkModeToggle.classList.remove('active');
+                }
+                localStorage.setItem('nosb-dark-mode', isDarkMode);
+                document.body.classList.add('fade-in');
+                setTimeout(() => document.body.classList.remove('fade-in'), 300);
+            }
+            function toggleAlphabetical() {
+                isAlphabetical = !isAlphabetical;
+                menuContent.classList.add('sorting');
+                setTimeout(() => {
+                    if (isAlphabetical) {
+                        showAlphabeticalView();
+                        alphabeticalSwitch.classList.add('active');
+                        alphabeticalToggle.classList.add('active');
+                        menuContent.classList.add('alphabetical');
+                    } else {
+                        showCategoricalView();
+                        alphabeticalSwitch.classList.remove('active');
+                        alphabeticalToggle.classList.remove('active');
+                        menuContent.classList.remove('alphabetical');
+                    }
+                    menuContent.classList.remove('sorting');
+                    localStorage.setItem('nosb-alphabetical', isAlphabetical);
+                    filterMenu();
+                }, 200);
+            }
+            function showAlphabeticalView() {
+                const sortedButtons = [...allButtons].sort((a, b) => a.text.toLowerCase().localeCompare(b.text.toLowerCase()));
+                const totalButtons = sortedButtons.length;
+                const maxColumns = 5;
+                const buttonsPerColumn = Math.ceil(totalButtons / maxColumns);
+                let newHTML = '';
+                for (let col = 0; col < maxColumns; col++) {
+                    const startIndex = col * buttonsPerColumn;
+                    const endIndex = Math.min(startIndex + buttonsPerColumn, totalButtons);
+                    const columnButtons = sortedButtons.slice(startIndex, endIndex);
+                    if (columnButtons.length > 0) {
+                        const firstChar = columnButtons[0].text.charAt(0).toUpperCase();
+                        const lastChar = columnButtons[columnButtons.length - 1].text.charAt(0).toUpperCase();
+                        const rangeLabel = firstChar === lastChar ? firstChar : `${firstChar}-${lastChar}`;
+                        newHTML += `<div class="category-card"><h2 class="category-title">${rangeLabel} Menu</h2>${columnButtons.map(btn => btn.outerHTML).join('')}</div>`;
+                    }
+                }
+                menuContent.innerHTML = newHTML;
+            }
+            function showCategoricalView() {
+                buildMenu(menuData);
+            }
+            function filterMenu() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const currentButtons = menuContent.querySelectorAll('.menu-button');
+                const currentCards = menuContent.querySelectorAll('.category-card');
+                currentButtons.forEach(button => {
+                    const buttonText = button.textContent.toLowerCase();
+                    const dataSearchTerm = button.dataset.searchTerm ? button.dataset.searchTerm.toLowerCase() : '';
+                    if (buttonText.includes(searchTerm) || dataSearchTerm.includes(searchTerm)) {
+                        button.style.display = 'block';
+                    } else {
+                        button.style.display = 'none';
+                    }
+                });
+                currentCards.forEach(card => {
+                    const visibleButtonsInCard = card.querySelectorAll('.menu-button[style*="display: block"], .menu-button:not([style*="display: none"])');
+                    if (visibleButtonsInCard.length === 0 && searchTerm !== '') {
+                        card.style.display = 'none';
+                    } else {
+                        card.style.display = 'flex';
+                    }
+                });
+            }
+            // --- Initial load ---
+            (async function() {
+                menuData = await fetchMenuData();
+                buildMenu(menuData);
+                // buildFooterButton(menuData.footerButton); // Footer button not used in original format
+                originalHTML = menuContent.innerHTML;
+                storeAllButtons();
+                loadPreferences();
+                attachEventListeners();
+            })();
+            // --- Admin/editor logic ---
+            adminBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.open('editor.html', '_blank');
+            });
+        });
+    </script>
+</body>
+</html>
+

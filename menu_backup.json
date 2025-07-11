@@ -1,0 +1,359 @@
+[
+  {
+    "category": "1 Situation Summary",
+    "color": "btn-purple",
+    "links": [
+      {
+        "label": "National",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/National",
+        "term": "National"
+      },
+      {
+        "label": "Heat Risk",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/Heat-Risk",
+        "term": "Heat Risk"
+      },
+      {
+        "label": "FY 25 Incidents",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/FY-25-Incidents",
+        "term": "FY25 Incidents and DROs"
+      },
+      {
+        "label": "DCS 5 Year Plan",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/DCS-5-Year-Plan",
+        "term": "DCS 5YR Plan"
+      },
+      {
+        "label": "DCS Narrative",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/DCS-Narrative",
+        "term": "DCS Narrative"
+      },
+      {
+        "label": "Global Trends",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/Global-Trends",
+        "term": "Global Trends"
+      },
+      {
+        "label": "DOCC Portal",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/DOCC-Portal",
+        "term": "DOCC Portal"
+      },
+      {
+        "label": "Current OPS Report",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/Current-OPS-Report",
+        "term": "Current OPS Rep"
+      },
+      {
+        "label": "Power Outages",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/Power-Outages",
+        "term": "Power Outages"
+      }
+    ]
+  },
+  {
+    "category": "2 Weather",
+    "color": "btn-blue",
+    "links": [
+      {
+        "label": "Storm Prediction Center",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/Storm-Prediction-Center",
+        "term": "Storm Prediction Center"
+      },
+      {
+        "label": "Precipitation",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/Precipitation",
+        "term": "Precipitation"
+      },
+      {
+        "label": "Flood Prediction",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/Flood-Prediction",
+        "term": "Flood Prediction"
+      },
+      {
+        "label": "Natl Hurricane Center",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/Natl-Hurricane-Center",
+        "term": "Natl Hurricane Center"
+      },
+      {
+        "label": "Air Reconnaissance",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/Air-Reconnaissance",
+        "term": "Air Reconnaissance"
+      },
+      {
+        "label": "7 DAY Fire Risk",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/7-DAY-Fire-Risk",
+        "term": "7 Day Fire Risk"
+      },
+      {
+        "label": "California EMS",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/California-EMS",
+        "term": "California EMS"
+      },
+      {
+        "label": "Natl Interagency FIRE",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/Natl-Interagency-FIRE",
+        "term": "Natl Interagency Fire"
+      },
+      {
+        "label": "Weather - General",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/Weather-General",
+        "term": "Weather General"
+      },
+      {
+        "label": "Tropical Hazards",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/Tropical-Hazards",
+        "term": "Tropical Hazards"
+      },
+      {
+        "label": "Fire Weather",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/Fire-Weather",
+        "term": "Fire Weather"
+      },
+      {
+        "label": "National Sheltering",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/National-Sheltering",
+        "term": "National Sheltering"
+      },
+      {
+        "label": "Current Open Shelters",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/Current-Open-Shelters",
+        "term": "Current Open Shelters"
+      },
+      {
+        "label": "Shelter Intake",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/Shelter-Intake",
+        "term": "Shelter Intake"
+      },
+      {
+        "label": "SCIA Operational Dashboard",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/SCIA-Operational-Dashboard",
+        "term": "SCIA Operational Dashboard"
+      },
+      {
+        "label": "Restricted SCIA Access Request",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/Restricted-SCIA-Access-Request",
+        "term": "Restricted SCIA Access Request"
+      }
+    ]
+  },
+  {
+    "category": "4 Logistics",
+    "color": "btn-green",
+    "links": [
+      {
+        "label": "Staffing",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/Staffing",
+        "term": "Staffing"
+      },
+      {
+        "label": "Staff Capacity Building",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/Staff-Capacity-Building",
+        "term": "Staff Capacity Building"
+      },
+      {
+        "label": "EBV - Event Volunteers",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/EBV-Event-Volunteers",
+        "term": "EBV Event Volunteers"
+      },
+      {
+        "label": "DST - Disaster Tech",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/DST-Disaster-Tech",
+        "term": "DST Disaster Tech"
+      },
+      {
+        "label": "IKD - InKind Donations",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/IKD-InKind-Donations",
+        "term": "IKD InKind Donations"
+      },
+      {
+        "label": "Trailers & Assets",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/Trailers-Assets",
+        "term": "Trailers Assets"
+      },
+      {
+        "label": "ERV - Emergency vehicles",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/ERV-Emergency-vehicles",
+        "term": "ERV Emergency vehicles"
+      },
+      {
+        "label": "Resourcing",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/Resourcing",
+        "term": "Resourcing"
+      },
+      {
+        "label": "Speed to Scale",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/Speed-to-Scale",
+        "term": "Speed to Scale"
+      },
+      {
+        "label": "1 800 Red Cross",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/1-800-Red-Cross",
+        "term": "1 800 Red Cross"
+      }
+    ]
+  },
+  {
+    "category": "6 SADS & DRO",
+    "color": "btn-orange",
+    "links": [
+      {
+        "label": "DOCC Current OPS",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/DOCC-Current-OPS",
+        "term": "DOCC Current OPS"
+      },
+      {
+        "label": "NIC Teams DRO Leadership",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/NIC-Teams-DRO-Leadership",
+        "term": "NIC Teams DRO Leadership"
+      },
+      {
+        "label": "Active DROs",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/Active-DROs",
+        "term": "Active DROs"
+      },
+      {
+        "label": "Natl Activation Levels",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/Natl-Activation-Levels",
+        "term": "Natl Activation Levels"
+      },
+      {
+        "label": "DRO Call Agenda",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/DRO-Call-Agenda",
+        "term": "DRO Call Agenda"
+      },
+      {
+        "label": "Dist Partner Hub",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/Dist-Partner-Hub",
+        "term": "Dist Partner Hub"
+      },
+      {
+        "label": "Hurricane Advance Planning",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/Hurricane-Advance-Planning",
+        "term": "Hurricane Advance Planning"
+      },
+      {
+        "label": "DR 503-25 South Texas",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/DR-503-25-South-Texas",
+        "term": "DR 503-25 South Texas"
+      },
+      {
+        "label": "DR 535-25 Missouri/Ark",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/DR-535-25-Missouri-Ark",
+        "term": "DR 535-25 Missouri/Ark"
+      },
+      {
+        "label": "DR 539-25 Kentucky",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/DR-539-25-Kentucky",
+        "term": "DR 539-25 Kentucky"
+      },
+      {
+        "label": "DR 540-25 Tennessee",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/DR-540-25-Tennessee",
+        "term": "DR 540-25 Tennessee"
+      },
+      {
+        "label": "DR 548-25 Indiana",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/DR-548-25-Indiana",
+        "term": "DR 548-25 Indiana"
+      },
+      {
+        "label": "DR 550-25 Illinois",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/DR-550-25-Illinois",
+        "term": "DR 550-25 Illinois"
+      },
+      {
+        "label": "DR 515-25 Harney, Oregon",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/DR-515-25-Harney-Oregon",
+        "term": "DR 515-25 Harney, Oregon"
+      },
+      {
+        "label": "DR 497-25 Oklahoma",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/DR-497-25-Oklahoma",
+        "term": "DR 497-25 Oklahoma"
+      },
+      {
+        "label": "DR Comp BETA",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/DR-Comp-BETA",
+        "term": "DR Comp BETA Tool"
+      }
+    ]
+  },
+  {
+    "category": "7 Financial Asst DAT",
+    "color": "btn-red",
+    "links": [
+      {
+        "label": "Client Assistance",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/Client-Assistance",
+        "term": "Client Assistance"
+      },
+      {
+        "label": "IDC Financial",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/IDC-Financial",
+        "term": "IDC Financial"
+      },
+      {
+        "label": "Bridge",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/Bridge",
+        "term": "Bridge"
+      },
+      {
+        "label": "DAT",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/DAT",
+        "term": "DAT"
+      },
+      {
+        "label": "Level 1-2 Casework FA",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/Level-1-2-Casework-FA",
+        "term": "Level 1-2 Casework FA"
+      },
+      {
+        "label": "Request Access",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/Request-Access",
+        "term": "Request Access"
+      },
+      {
+        "label": "Disaster Current OPs Dashboard",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/Disaster-Current-OPs-Dashboard",
+        "term": "Disaster Current OPs Dashboard"
+      },
+      {
+        "label": "Nat'l Operations - Client Assistance",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/Natl-Operations-Client-Assistance",
+        "term": "Natl Operations Client Assistance"
+      },
+      {
+        "label": "Bridge Dashboard Historical Info",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/Bridge-Dashboard-Historical-Info",
+        "term": "Bridge Dashboard Historical Info"
+      }
+    ]
+  },
+  {
+    "category": "8 Regional Risk Tool",
+    "color": "btn-black",
+    "links": [
+      {
+        "label": "Regional Risk Tool",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/Regional-Risk-Tool",
+        "term": "Regional Risk Tool"
+      }
+    ]
+  },
+  {
+    "category": "9 Community Adaptation CAP",
+    "color": "btn-black",
+    "links": [
+      {
+        "label": "CAP Website",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/CAP-Website",
+        "term": "CAP Website"
+      },
+      {
+        "label": "Housing Resources",
+        "href": "https://experience.arcgis.com/experience/ce0b7dc7574c49a8a82f36443fee494f/page/Housing-Resources",
+        "term": "Housing Resources"
+      }
+    ]
+  }
+]

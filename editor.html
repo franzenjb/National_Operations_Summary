@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Editor - National Operations Summary</title>
+    <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+    <style>
+        body { background: #f0f4f8; font-family: 'Inter', sans-serif; }
+        .editor-container { max-width: 700px; margin: 2rem auto; background: #fff; border-radius: 8px; box-shadow: 0 4px 32px rgba(0,0,0,0.08); padding: 2rem; }
+        .cat-block { border-bottom: 1px solid #eee; margin-bottom: 1rem; padding-bottom: 0.5rem; }
+        .item-block { margin-left: 1.5rem; display: flex; gap: 0.5rem; align-items: center; }
+        .danger { background: #e74c3c; color: #fff; border: none; border-radius: 4px; padding: 0.2rem 0.7rem; }
+        .close-btn { float: right; background: #888; color: #fff; border: none; border-radius: 4px; padding: 0.2rem 0.7rem; }
+        input, select { margin: 0.2rem 0.5rem 0.2rem 0; padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid #ccc; }
+        button { margin: 0.2rem 0.2rem 0.2rem 0; padding: 0.2rem 0.7rem; border-radius: 4px; border: none; background: #3498db; color: #fff; cursor: pointer; }
+        textarea { width: 100%; min-height: 60px; margin-top: 0.5rem; }
+        #adminModal { display: flex; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.4); z-index:2000; align-items:center; justify-content:center; }
+        #adminModalInner { background:#fff; border-radius:8px; padding:2rem; max-width:350px; width:90vw; box-shadow:0 4px 32px rgba(0,0,0,0.2); text-align:center; }
+        .info-box { background: #fff; border-left: 5px solid #c8102e; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.07); padding: 2.5rem 2.5rem 2rem 2.5rem; margin-bottom: 2.5rem; font-family: 'Georgia', 'Times New Roman', serif; color: #232323; max-width: 700px; }
+        .info-box h2 { color: #c8102e; font-size: 1.5rem; font-weight: 700; margin-bottom: 0.7rem; letter-spacing: 0.01em; }
+        .info-box ul { margin: 1.2em 0 0 1.5em; padding: 0; list-style: disc; }
+        .info-box .highlight, .info-box code { background: #f5f6fa; color: #c8102e; font-family: 'Menlo', 'Monaco', monospace; border-radius: 4px; padding: 2px 6px; font-size: 1em; word-break: break-all; overflow-wrap: anywhere; display: inline-block; max-width: 100%; }
+        .info-box .note { display: block; margin-top: 1.5em; color: #c8102e; font-size: 1.05em; font-weight: 600; }
+        @media (max-width: 600px) {
+          .info-box { padding: 1.2rem 0.7rem 1rem 0.7rem; font-size: 1em; }
+          .info-box h2 { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div id="adminModal">
+      <div id="adminModalInner">
+        <h3>Admin Login</h3>
+        <input id="adminPasswordInput" type="password" placeholder="Enter password" style="padding:0.5rem; width:80%; margin-bottom:1rem; border-radius:4px; border:1px solid #ccc;">
+        <br>
+        <button id="adminLoginBtn" style="background:#3498db; color:#fff; border:none; border-radius:4px; padding:0.5rem 1.2rem; margin-right:0.5rem;">Login</button>
+        <div id="adminErrorMsg" style="color:#e74c3c; margin-top:0.5rem; display:none;"></div>
+      </div>
+    </div>
+    <div class="editor-container" id="editorContainer" style="display:none;">
+        <div class="info-box">
+          <h2>Menu Setup Guidance</h2>
+          <p>When adding a new menu item, ensure you also create the corresponding page in your ESRI Experience Builder project.</p>
+          <ul>
+            <li>Use only the part of the ESRI page URL that comes after the main domain.<br>
+              For example: <span class="highlight">/experience/abc123/page1</span> or simply <span class="highlight">trucks_trailers</span>.
+            </li>
+            <li>Enter this path in the menu item’s URL field.</li>
+            <li><b>Example:</b> If your ESRI page URL is<br>
+              <span class="highlight">https://experience.arcgis.com/experience/1234567890abcdef/trucks_trailers</span><br>
+              then use <span class="highlight">trucks_trailers</span> as the menu item’s URL.
+            </li>
+          </ul>
+          <span class="note"><b>Note:</b> Menu changes here are live for all users. New pages must be created separately in ESRI Experience Builder.</span>
+        </div>
+        <div style="display: flex; font-weight: bold; margin-bottom: 0.5em;">
+            <div style="flex:1; text-align:center;">Menu Item Title</div>
+            <div style="flex:1; text-align:center;">Menu Item URL</div>
+        </div>
+        <h1 class="text-2xl font-bold mb-4">Menu Editor</h1>
+        <div id="menuEditorContent"></div>
+    </div>
+    <script>
+        // --- CORS: must match your backend ---
+        const BACKEND_URL = 'https://menu-jfranzen.pythonanywhere.com';
+        let menuData = { categories: [], footerButton: null };
+        let menuEditorData = null;
+        let isAdmin = false;
+        // --- Admin modal logic ---
+        const adminModal = document.getElementById('adminModal');
+        const adminPasswordInput = document.getElementById('adminPasswordInput');
+        const adminLoginBtn = document.getElementById('adminLoginBtn');
+        const adminErrorMsg = document.getElementById('adminErrorMsg');
+        const editorContainer = document.getElementById('editorContainer');
+        adminLoginBtn.onclick = function() {
+            if (adminPasswordInput.value === 'redcross') {
+                isAdmin = true;
+                adminModal.style.display = 'none';
+                editorContainer.style.display = 'block';
+                loadMenu();
+            } else {
+                adminErrorMsg.textContent = 'Incorrect password.';
+                adminErrorMsg.style.display = 'block';
+            }
+        };
+        adminPasswordInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') adminLoginBtn.click();
+        });
+        // --- Menu API functions ---
+        async function fetchMenuData() {
+            const resp = await fetch(BACKEND_URL + '/menu');
+            if (!resp.ok) throw new Error('Failed to load menu');
+            return await resp.json();
+        }
+        async function saveMenuData(data) {
+            const resp = await fetch(BACKEND_URL + '/menu?pw=redcross', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (!resp.ok) throw new Error('Failed to save menu');
+            return await resp.json();
+        }
+        async function fetchVersions() {
+            const resp = await fetch(BACKEND_URL + '/versions');
+            return resp.ok ? await resp.json() : [];
+        }
+        async function restoreVersion(filename) {
+            const resp = await fetch(BACKEND_URL + '/restore?pw=redcross', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ filename })
+            });
+            return resp.ok;
+        }
+        // --- Editor UI logic ---
+        function renderMenuEditor() {
+            let html = '';
+            menuEditorData.categories.forEach((cat, ci) => {
+                html += `<div class='cat-block'><b>${cat.title}</b> <button class='danger' onclick='removeCategory(${ci})'>Delete Category</button><br>`;
+                html += `Color: <input value='${cat.color}' onchange='updateCategoryColor(${ci}, this.value)'>`;
+                html += `<button onclick='addMenuItem(${ci})'>Add Item</button>`;
+                (cat.items||[]).forEach((item, ii) => {
+                    html += `<div class='item-block'>
+                        <input value='${item.title}' onchange='updateMenuItem(${ci},${ii},"title",this.value)'>
+                        <input value='${item.url}' onchange='updateMenuItem(${ci},${ii},"url",this.value)'>
+                        <button class='danger' onclick='removeMenuItem(${ci},${ii})'>Delete</button>
+                    </div>`;
+                });
+                html += `</div>`;
+            });
+            html += `<button onclick='addCategory()'>Add Category</button>`;
+            html += `<button id='saveMenuBtn'>Save</button>`;
+            html += `<button id='showRestoreBtn'>Restore Previous Version</button>`;
+            document.getElementById('menuEditorContent').innerHTML = html;
+            document.getElementById('saveMenuBtn').onclick = async function() {
+                await saveMenuData(menuEditorData);
+                menuData = JSON.parse(JSON.stringify(menuEditorData));
+                alert('Menu saved!');
+            };
+            document.getElementById('showRestoreBtn').onclick = async function() {
+                const versions = await fetchVersions();
+                let restoreHtml = '<h3>Restore Previous Version</h3>';
+                restoreHtml += '<ul>' + versions.map(v => `<li><button onclick=\'restoreVersionAction(\"${v}\")\'>${v}</button></li>`).join('') + '</ul>';
+                restoreHtml += `<button onclick='renderMenuEditor()'>Back</button>`;
+                document.getElementById('menuEditorContent').innerHTML = restoreHtml;
+            };
+        }
+        window.addCategory = function() {
+            menuEditorData.categories.push({id:'new-cat-'+Date.now(),title:'New Category',color:'purple',items:[]});
+            renderMenuEditor();
+        }
+        window.removeCategory = function(ci) {
+            if(confirm('Delete this category?')) menuEditorData.categories.splice(ci,1);
+            renderMenuEditor();
+        }
+        window.addMenuItem = function(ci) {
+            menuEditorData.categories[ci].items.push({title:'New Item',url:''});
+            renderMenuEditor();
+        }
+        window.removeMenuItem = function(ci,ii) {
+            if(confirm('Delete this item?')) menuEditorData.categories[ci].items.splice(ii,1);
+            renderMenuEditor();
+        }
+        window.updateMenuItem = function(ci,ii,field,val) {
+            menuEditorData.categories[ci].items[ii][field]=val;
+        }
+        window.updateCategoryColor = function(ci,val) {
+            menuEditorData.categories[ci].color=val;
+        }
+        window.restoreVersionAction = async function(filename) {
+            if(confirm('Restore this version?')) {
+                await restoreVersion(filename);
+                menuData = await fetchMenuData();
+                menuEditorData = JSON.parse(JSON.stringify(menuData));
+                alert('Menu restored!');
+                renderMenuEditor();
+            }
+        }
+        async function loadMenu() {
+            menuData = await fetchMenuData();
+            menuEditorData = JSON.parse(JSON.stringify(menuData));
+            renderMenuEditor();
+        }
+    </script>
+</body>
+</html> 
